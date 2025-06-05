@@ -1,0 +1,13 @@
+.locations-section {
+    padding: 60px 0;
+  }
+  
+  .locations-section .heading.two h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+  
+  .map {
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  }
+  

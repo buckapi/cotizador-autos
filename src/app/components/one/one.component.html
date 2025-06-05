@@ -22,19 +22,44 @@
             </div>
             <div class="tab-content tabtwo" id="v-pills-tabContent">
               <div class="tab-pane fade show active" id="v-pills-home2" role="tabpanel" aria-labelledby="v-pills-home2-tab"> 
-                <form role="form" class="contact-form" method="post" >
-                    <div class="pick-up">
-                        <span>Origen</span>
-                        <input type="text" name="city" placeholder="Airport, postcode, city..." required>
-                        <i class="flaticon-aim"></i> 
-                    <i class="flaticon-search"></i>
-                    </div>
-                    <div class="pick-up">
-                      <span>Destino</span>
-                      <input type="text" name="city" placeholder="Airport, postcode, city..." required>
-                      <i class="flaticon-aim"></i> 
-                  <i class="flaticon-search"></i>
-                    </div>
+                <form (ngSubmit)="onSubmit()" >
+                  <div class="pick-up position-relative">
+                    <span>Origen</span>
+                    <i class="flaticon-aim icon-aim"></i>
+                    <input
+                      type="text"
+                      name="origin"
+                      [(ngModel)]="origin"
+                      (input)="onOriginInput()"
+                      placeholder="Origen"
+                      autocomplete="off"
+                      required>
+                    <i class="flaticon-search icon-search"></i>
+
+                    <ul class="autocomplete-list" *ngIf="originSuggestions.length > 0">
+                      <li *ngFor="let place of originSuggestions" (click)="selectOrigin(place)">
+                        {{ place }}
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="pick-up position-relative">
+                    <span>Destino</span>
+                    <i class="flaticon-aim icon-aim"></i>
+                    <i class="flaticon-search icon-search"></i>
+                    <input
+                      type="text"
+                      name="destination"
+                      [(ngModel)]="destination"
+                      (input)="onDestinationInput()"
+                      placeholder="Destino"
+                      autocomplete="off"
+                      required>
+                    <ul class="autocomplete-list" *ngIf="destinationSuggestions.length > 0">
+                      <li *ngFor="let place of destinationSuggestions" (click)="selectDestination(place)">
+                        {{ place }}
+                      </li>
+                    </ul>
+                  </div> 
                     <input type="Hidden" name="vehicle" value="car">
                     <span>Tipo de viaje</span>
                     <ul class="rental-type">
@@ -67,10 +92,10 @@
                         </div>
                     </div>
                    
-                    <button class="btn" type="submit"><span>Submit</span></button>
+                    <button class="btn" (click)="onSubmit()"><span>Submit</span></button>
                 </form>
               </div>
-              <div class="tab-pane fade" id="v-pills-profile2" role="tabpanel" aria-labelledby="v-pills-profile2-tab"> 
+              <!-- <div class="tab-pane fade" id="v-pills-profile2" role="tabpanel" aria-labelledby="v-pills-profile2-tab"> 
                 <form role="form" class="contact-form" method="post" >
                   <div class="pick-up">
                       <span>Origen</span>
@@ -216,7 +241,7 @@
                  
                   <button class="btn" type="submit"><span>Submit</span></button>
               </form>
-              </div> 
+              </div>  -->
             </div> 
           </div>
         </div>
