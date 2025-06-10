@@ -28,7 +28,8 @@
             ],
             "styles": [
               "src/styles.css",
-               "node_modules/mapbox-gl/dist/mapbox-gl.css"
+               "node_modules/mapbox-gl/dist/mapbox-gl.css",
+               "public/assets/font/flaticon_mycollection.css"
             ],
             "scripts": []
           },

@@ -1,4 +1,4 @@
-<header id="stickyHeader">
+<header id="stickyHeader" style="position: fixed; top: 0; width: 100%; z-index: 9999;">
 
     <div class="header-top-bar">
       <div class="container"> 
@@ -15,9 +15,36 @@
   
           </nav>
           <div class="login">
-            <a href="index.html#"><i class="flaticon-internet"></i>EN | $</a>
-            <a class="register" href="index.html#"><span><i class="flaticon-user"></i>Log in | Register</span></a>
-          </div>
+            <a class="register" style="color: #d6c500;
+            font-weight: bold;
+            font-size: 26px;
+            cursor: pointer;
+            "
+            (click)="virtualRouterService.setActiveRoute('one')"
+            ><span>
+              1 </span></a>
+             <a style="color: #ffffff;
+            font-weight: bold;
+            font-size: 26px;
+            margin-left: 30px;
+            cursor: pointer;
+            "
+            (click)="virtualRouterService.setActiveRoute('two')"
+            >
+              <!-- <i class="flaticon-internet"></i> -->
+               2</a>
+              <a style="color: #ffffff;
+            font-weight: bold;
+            margin-left: 30px;
+            font-size: 26px;
+            cursor: pointer;
+            "
+            (click)="virtualRouterService.setActiveRoute('three')"
+            >
+                <!-- <i class="flaticon-internet"></i> -->
+                3</a>
+
+            </div>
         </div>
       </div>
     </div>

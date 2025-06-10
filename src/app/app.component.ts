@@ -5,6 +5,7 @@ import { HeaderComponent } from './components/ui/header/header.component';
 import { OneComponent } from './components/one/one.component';
 import { TwoComponent } from './components/two/two.component';
 import { ThreeComponent } from './components/three/three.component';
+import { VirtualRouterService } from './services/virtual-router.service';
 
 @Component({
   selector: 'app-root',
@@ -15,4 +16,5 @@ import { ThreeComponent } from './components/three/three.component';
 })
 export class AppComponent {
   title = 'cotizador';
+  constructor(public virtualRouterService: VirtualRouterService){}
 }

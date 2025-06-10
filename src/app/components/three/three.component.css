@@ -10,4 +10,8 @@
   .map {
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
   }
-  
+  .mapboxgl-canvas {
+    background-color: transparent !important;
+    height: 800px !important;
+  }
+    

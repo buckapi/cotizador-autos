@@ -4,8 +4,8 @@ import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TravelDataService {
-  private originSubject = new BehaviorSubject<string>('Bogotá');
-  private destinationSubject = new BehaviorSubject<string>('Cartagena');
+  private originSubject = new BehaviorSubject<string>('taganga');
+  private destinationSubject = new BehaviorSubject<string>('santa marta magdalena calle 18 7a');
 
   origin$ = this.originSubject.asObservable();
   destination$ = this.destinationSubject.asObservable();

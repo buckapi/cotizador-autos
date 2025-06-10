@@ -1,269 +1,175 @@
 <section id="home" class="hero-section" style="background-image: url(assets/img/hero-img.jpg);">
-    <div class="container">
-      <div class="hero-section-text">
-        <div class="row align-items-center">
-          <div class="col-lg-6 wow fadeInUp" data-wow-delay=".5s" data-cursor-text='text'>
-            <div class="hero-text">
-              <h1>Cotiza ahora  <span>el costo de tu traslado</span></h1>
-              <h5>Has llegado al lugar correcto.</h5>
-               <ul class="theme-list">
-                <li><i class="fa-solid fa-check"></i>Cancelaciones libres en la mayoría de las reservas</li>
-                <li><i class="fa-solid fa-check"></i>60,000+ ubicaciones</li>
-                <li><i class="fa-solid fa-check"></i>Soporte al cliente en 30+ idiomas</li>
-              </ul>
-            </div>
+  <div class="container">
+    <div class="hero-section-text">
+      <div class="row align-items-center" >
+        <div class="col-lg-6 wow fadeInUp" data-wow-delay=".5s" data-cursor-text='text' >
+          <div class="hero-text">
+            <h1>Cotiza ahora  <span>el costo de tu traslado</span></h1>
+            <h5>Has llegado al lugar correcto.</h5>
+            <ul class="theme-list">
+              <li><i class="fa-solid fa-check"></i>Cancelaciones libres en la mayoría de las reservas</li>
+              <li><i class="fa-solid fa-check"></i>60,000+ ubicaciones</li>
+              <li><i class="fa-solid fa-check"></i>Soporte al cliente en 30+ idiomas</li>
+            </ul>
           </div>
-          <div class="col-lg-6 wow fadeInUp" data-wow-delay=".8s">
-            <div class="tabtwo nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-              <button class="nav-link active" id="v-pills-home2-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home2" type="button" role="tab" aria-controls="v-pills-home2" aria-selected="true"><i class="flaticon-car"></i> Sedán </button>
-              <button class="nav-link" id="v-pills-profile2-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile2" type="button" role="tab" aria-controls="v-pills-profile2" aria-selected="false"><i class="flaticon-van"></i> Minibus </button>
-              <button class="nav-link" id="v-pills-messages2-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages2" type="button" role="tab" aria-controls="v-pills-messages2" aria-selected="false"><i class="flaticon-off-road"></i> SUV </button>
-              <button class="nav-link" id="v-pills-settings2-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings2" type="button" role="tab" aria-controls="v-pills-settings2" aria-selected="false"><i class="flaticon-jeep"></i> Rustico </button> 
-            </div>
-            <div class="tab-content tabtwo" id="v-pills-tabContent">
-              <div class="tab-pane fade show active" id="v-pills-home2" role="tabpanel" aria-labelledby="v-pills-home2-tab"> 
-                <form (ngSubmit)="onSubmit()" >
-                  <div class="pick-up position-relative">
-                    <span>Origen</span>
-                    <i class="flaticon-aim icon-aim"></i>
-                    <input
-                      type="text"
-                      name="origin"
-                      [(ngModel)]="origin"
-                      (input)="onOriginInput()"
-                      placeholder="Origen"
-                      autocomplete="off"
-                      required>
-                    <i class="flaticon-search icon-search"></i>
+        </div>
+        <div class="col-lg-6 wow fadeInUp" data-wow-delay=".8s">
+          <div class="tabtwo nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <button class="nav-link tooltip-vehiculo"
+                    [class.active]="vehiculoDisponible('sedan')"
+                    (click)="seleccionarVehiculo('sedan')">
+              <i class="flaticon-car"></i> Sedán
+              <span class="tooltip-text">Hasta 3 personas y 3 maletas</span>
+            </button>
+          
+            <button class="nav-link tooltip-vehiculo"
+                    [class.active]="vehiculoDisponible('minivan')"
+                    (click)="seleccionarVehiculo('minivan')">
+              <i class="flaticon-minivan"></i> Minivan
+              <span class="tooltip-text">Hasta 6 personas y 6 maletas</span>
+            </button>
+          
+            <button class="nav-link tooltip-vehiculo"
+                    [class.active]="vehiculoDisponible('suv')"
+                    (click)="seleccionarVehiculo('suv')">
+              <i class="flaticon-off-road"></i> SUV
+              <span class="tooltip-text">Hasta 7 personas y 7 maletas</span>
+            </button>
+          
+            <button class="nav-link tooltip-vehiculo"
+                    [class.active]="vehiculoDisponible('minibus')"
+                    (click)="seleccionarVehiculo('minibus')">
+                    <i class="flaticon-van"></i>
+              <!-- <img src="assets/img/bus.png" alt="Minibús" style="height: 25px;width: 25px;"> -->
+              Minibús
+              <span class="tooltip-text">12 o 16 personas (1 maleta por persona)</span>
+            </button>
+          </div>
+          
+          <div class="tab-content tabtwo" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="v-pills-home2" role="tabpanel" aria-labelledby="v-pills-home2-tab"> 
+           
+          <form (ngSubmit)="onSubmit()" class="contact-form">
+            <div class="tab-content tabtwo">
+              <div class="form-group">
+                <label>Tipo de servicio</label>
+                <select [(ngModel)]="tipoServicio" name="tipoServicio" class="form-control">
+                  <option value="aeropuerto">Aeropuerto</option>
+                  <option value="punto">Punto a Punto</option>
+                  <option value="hora">Por Hora</option>
+                </select>
+              </div>
 
-                    <ul class="autocomplete-list" *ngIf="originSuggestions.length > 0">
-                      <li *ngFor="let place of originSuggestions" (click)="selectOrigin(place)">
-                        {{ place }}
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="pick-up position-relative">
-                    <span>Destino</span>
-                    <i class="flaticon-aim icon-aim"></i>
-                    <i class="flaticon-search icon-search"></i>
-                    <input
-                      type="text"
-                      name="destination"
-                      [(ngModel)]="destination"
-                      (input)="onDestinationInput()"
-                      placeholder="Destino"
-                      autocomplete="off"
-                      required>
-                    <ul class="autocomplete-list" *ngIf="destinationSuggestions.length > 0">
-                      <li *ngFor="let place of destinationSuggestions" (click)="selectDestination(place)">
-                        {{ place }}
-                      </li>
-                    </ul>
-                  </div> 
-                    <input type="Hidden" name="vehicle" value="car">
-                    <span>Tipo de viaje</span>
-                    <ul class="rental-type">
-                        <li>
-                            <input type="radio" name="rental_type" value="Economy" required>
-                            <label for="Economy">Solo Ida</label>
-                        </li>
-                        <li>
-                            <input type="radio" name="rental_type" value="Check Payment">
-                            <label for="Check_Payment">Ida y Vuelta</label>
-                        </li>
-                       
-                    </ul>
-                    <div class="datatime">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <span>Fecha de Ida</span>
-                                <div class="date-from">
-                                    <input type="date" name="date_from" required>
-                                    <input type="time" name="time_from" required>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <span>Fecha de Vuelta</span>
-                                <div class="date-from">
-                                    <input type="date" name="date_to" required>
-                                    <input type="time" name="time_to" required>
-                                </div>
-                            </div>
-                        </div>
+              <div class="pick-up position-relative">
+                <span>Origen</span>
+                <i class="flaticon-aim icon-aim"></i>
+                <input
+                  type="text"
+                  name="origin"
+                  [(ngModel)]="origin"
+                  (input)="onOriginInput()"
+                  placeholder="Origen"
+                  autocomplete="off"
+                  required>
+                <i class="flaticon-search icon-search"></i>
+
+                <ul class="autocomplete-list" *ngIf="originSuggestions.length > 0">
+                  <li *ngFor="let place of originSuggestions" (click)="selectOrigin(place)">
+                    {{ place }}
+                  </li>
+                </ul>
+              </div>
+
+              <div class="pick-up position-relative" *ngIf="tipoServicio !== 'hora'">
+                <span>Destino</span>
+                <i class="flaticon-aim icon-aim"></i>
+                <input type="text" name="destination" [(ngModel)]="destination" (input)="onDestinationInput()" placeholder="Destino" autocomplete="off" required>
+                <i class="flaticon-search icon-search"></i>
+                <ul class="autocomplete-list" *ngIf="destinationSuggestions.length > 0">
+                  <li *ngFor="let place of destinationSuggestions" (click)="selectDestination(place)">{{ place }}</li>
+                </ul>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="quantity-wrapper">
+                    <label class="quantity-label">Cantidad de pasajeros</label>
+                    <div class="quantity-control">
+                      <button type="button" class="qty-btn" (click)="decreaseCount()">−</button>
+                      <span class="qty-value">{{ passengerCount }}</span>
+                      <button type="button" class="qty-btn" (click)="increaseCount()">+</button>
                     </div>
-                   
-                    <button class="btn" (click)="onSubmit()"><span>Submit</span></button>
-                </form>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+
+                </div>
               </div>
-              <!-- <div class="tab-pane fade" id="v-pills-profile2" role="tabpanel" aria-labelledby="v-pills-profile2-tab"> 
-                <form role="form" class="contact-form" method="post" >
-                  <div class="pick-up">
-                      <span>Origen</span>
-                      <input type="text" name="city" placeholder="Airport, postcode, city..." required>
-                      <i class="flaticon-aim"></i> 
-                  <i class="flaticon-search"></i>
-                  </div>
-                  <div class="pick-up">
-                    <span>Destino</span>
-                    <input type="text" name="city" placeholder="Airport, postcode, city..." required>
-                    <i class="flaticon-aim"></i> 
-                <i class="flaticon-search"></i>
-                  </div>
-                  <input type="Hidden" name="vehicle" value="car">
-                   <span>Tipo de viaje</span>
-                  <ul class="rental-type">
-                      <li>
-                          <input type="radio" name="rental_type" value="Economy" required>
-                          <label for="Economy">Solo Ida</label>
-                      </li>
-                      <li>
-                          <input type="radio" name="rental_type" value="Check Payment">
-                          <label for="Check_Payment">Ida y Vuelta</label>
-                      </li>
-                     
-                  </ul>
-                  <div class="datatime">
-                      <div class="row">
-                          <div class="col-lg-6">
-                              <span>Fecha de Ida</span>
-                              <div class="date-from">
-                                  <input type="date" name="date_from" required>
-                                  <input type="time" name="time_from" required>
-                              </div>
-                          </div>
-                          <div class="col-lg-6">
-                              <span>Fecha de Vuelta</span>
-                              <div class="date-from">
-                                  <input type="date" name="date_to" required>
-                                  <input type="time" name="time_to" required>
-                              </div>
-                          </div>
+             
+
+              <div *ngIf="tipoServicio === 'aeropuerto'">
+                <span>Tipo de viaje</span>
+                <ul class="rental-type">
+                  <li><input type="radio" name="tipoViaje" [(ngModel)]="tipoViaje" value="solo_ida" required><label>Solo Ida</label></li>
+                  <li><input type="radio" name="tipoViaje" [(ngModel)]="tipoViaje" value="ida_vuelta"><label>Ida y Vuelta</label></li>
+                </ul>
+                <div class="datatime">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <span>Fecha de Ida</span>
+                      <div class="date-from">
+                        <input type="date" [(ngModel)]="fechaIda" name="fechaIda" required>
+                        <input type="time" [(ngModel)]="horaIda" name="horaIda" required>
                       </div>
+                    </div>
+                    <div class="col-lg-6" *ngIf="tipoViaje === 'ida_vuelta'">
+                      <span>Fecha de Vuelta</span>
+                      <div class="date-from">
+                        <input type="date" [(ngModel)]="fechaVuelta" name="fechaVuelta" required>
+                        <input type="time" [(ngModel)]="horaVuelta" name="horaVuelta" required>
+                      </div>
+                    </div>
                   </div>
-                 
-                  <button class="btn" type="submit"><span>Submit</span></button>
-              </form>
+                </div>
+                <div class="form-group">
+                  <label>Número de vuelo</label>
+                  <input type="text" [(ngModel)]="numeroVuelo" name="numeroVuelo" class="form-control">
+                </div>
               </div>
-              <div class="tab-pane fade" id="v-pills-messages2" role="tabpanel" aria-labelledby="v-pills-messages2-tab"> 
-                <form role="form" class="contact-form" method="post" >
-                  <div class="pick-up">
-                      <span>Origen</span>
-                      <input type="text" name="city" placeholder="Airport, postcode, city..." required>
-                      <i class="flaticon-aim"></i> 
-                  <i class="flaticon-search"></i>
-                  </div>
-                  <div class="pick-up">
-                    <span>Destino</span>
-                    <input type="text" name="city" placeholder="Airport, postcode, city..." required>
-                    <i class="flaticon-aim"></i> 
-                <i class="flaticon-search"></i>
-                  </div>
-                  <input type="Hidden" name="vehicle" value="car">
-                    <span>Tipo de viaje</span>
-                  <ul class="rental-type">
-                      <li>
-                          <input type="radio" name="rental_type" value="Economy" required>
-                          <label for="Economy">Solo Ida</label>
-                      </li>
-                      <li>
-                          <input type="radio" name="rental_type" value="Check Payment">
-                          <label for="Check_Payment">Ida y Vuelta</label>
-                      </li>
-                     
-                  </ul>
-                  <div class="datatime">
-                      <div class="row">
-                          <div class="col-lg-6">
-                              <span>Fecha de Ida</span>
-                              <div class="date-from">
-                                  <input type="date" name="date_from" required>
-                                  <input type="time" name="time_from" required>
-                              </div>
-                          </div>
-                          <div class="col-lg-6">
-                              <span>Fecha de Vuelta</span>
-                              <div class="date-from">
-                                  <input type="date" name="date_to" required>
-                                  <input type="time" name="time_to" required>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                 
-                  <button class="btn" type="submit"><span>Submit</span></button>
-              </form>
+
+              <div *ngIf="tipoServicio === 'hora'">
+                <div class="form-group">
+                  <label>Horas contratadas (mínimo 2)</label>
+                  <input type="number" [(ngModel)]="horasContratadas" name="horasContratadas" class="form-control" min="2">
+                </div>
               </div>
-              <div class="tab-pane fade" id="v-pills-settings2" role="tabpanel" aria-labelledby="v-pills-settings2-tab"> 
-                <form role="form" class="contact-form" method="post" >
-                  <div class="pick-up">
-                      <span>Origen</span>
-                      <input type="text" name="city" placeholder="Airport, postcode, city..." required>
-                      <i class="flaticon-aim"></i> 
-                  <i class="flaticon-search"></i>
-                  </div>
-                  <div class="pick-up">
-                    <span>Destino</span>
-                    <input type="text" name="city" placeholder="Airport, postcode, city..." required>
-                    <i class="flaticon-aim"></i> 
-                <i class="flaticon-search"></i>
-                  </div>
-                  <input type="Hidden" name="vehicle" value="car">
-                      <span>Tipo de viaje</span>
-                  <ul class="rental-type">
-                      <li>
-                          <input type="radio" name="rental_type" value="Economy" required>
-                          <label for="Economy">Solo Ida</label>
-                      </li>
-                      <li>
-                          <input type="radio" name="rental_type" value="Check Payment">
-                          <label for="Check_Payment">Ida y Vuelta</label>
-                      </li>
-                     
-                  </ul>
-                  <div class="datatime">
-                      <div class="row">
-                          <div class="col-lg-6">
-                              <span>Fecha de Ida</span>
-                              <div class="date-from">
-                                  <input type="date" name="date_from" required>
-                                  <input type="time" name="time_from" required>
-                              </div>
-                          </div>
-                          <div class="col-lg-6">
-                              <span>Fecha de Vuelta</span>
-                              <div class="date-from">
-                                  <input type="date" name="date_to" required>
-                                  <input type="time" name="time_to" required>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                 
-                  <button class="btn" type="submit"><span>Submit</span></button>
-              </form>
-              </div>  -->
-            </div> 
+
+              <button class="btn" type="submit"><span>Enviar</span></button>
+            </div>
+          </form>
+          </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="img-slider swiper">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">
-          <div class="img-div">
-            <img src="assets/img/hero-img.jpg" alt="img">
-          </div>
+  </div>
+  <div class="img-slider swiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <div class="img-div">
+          <img src="assets/img/hero-img.jpg" alt="img">
         </div>
-        <div class="swiper-slide">
-          <div class="img-div">
-            <img src="assets/img/hero-img-2.jpg" alt="img">
-          </div>
+      </div>
+      <div class="swiper-slide">
+        <div class="img-div">
+          <img src="assets/img/hero-img-2.jpg" alt="img">
         </div>
-        <div class="swiper-slide">
-          <div class="img-div">
-            <img src="assets/img/hero-img-3.jpg" alt="img">
-          </div>
+      </div>
+      <div class="swiper-slide">
+        <div class="img-div">
+          <img src="assets/img/hero-img-3.jpg" alt="img">
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
