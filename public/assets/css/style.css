@@ -50,6 +50,7 @@
 :root {
     --common-found: 'Funnel Display';
     --theme-found: 'Be Vietnam Pro';
+    /* --theme-color: #d6c500; */
     --theme-color: #d6c500;
 }
 
@@ -830,7 +831,9 @@ button.btn span {
     content: "";
     position: absolute;
     width: 100%;
-    background-color: #ffffff;
+    /* background-color: #ffffff;
+     */
+     background-color: #ffcb05;
     width: 100%;
     height: 10%;
     left: 0;

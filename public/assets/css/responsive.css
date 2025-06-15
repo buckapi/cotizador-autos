@@ -311,7 +311,7 @@
     font-size: 40px;
   }
   .nav-pills .nav-link img {
-    display: none;
+    /* display: none; */
   }
   .nav-pills .nav-link {
     width: 120px;

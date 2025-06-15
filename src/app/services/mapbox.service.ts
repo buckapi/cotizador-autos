@@ -33,7 +33,10 @@ export class MapboxService {
     onRouteUpdated: (distanceKm: number, originText: string, destinationText: string) => void
   ) {
     if (!this.originMarker) {
-      this.originMarker = new mapboxgl.Marker({ draggable: true })
+      this.originMarker = new mapboxgl.Marker({
+        draggable: true,
+        element: this.createCustomMarker('blue')
+      })
         .setLngLat(origin)
         .addTo(this.map)
         .on('dragend', () => this.updateRouteFromMarkers(token, onRouteUpdated));
@@ -42,7 +45,10 @@ export class MapboxService {
     }
   
     if (!this.destinationMarker) {
-      this.destinationMarker = new mapboxgl.Marker({ draggable: true })
+      this.destinationMarker = new mapboxgl.Marker({
+        draggable: true,
+        element: this.createCustomMarker('red')
+      })
         .setLngLat(destination)
         .addTo(this.map)
         .on('dragend', () => this.updateRouteFromMarkers(token, onRouteUpdated));

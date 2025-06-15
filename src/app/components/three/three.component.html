@@ -20,7 +20,7 @@
         <div class="d-flex justify-content-between align-items-center mt-4 gap-3 flex-wrap">
           <!-- Origen -->
           <div class="d-flex align-items-center flex-grow-1" style="min-width: 0;">
-            <img src="assets/img/locations-pin.png" alt="Origen" style="height: 30px; margin-right: 10px;">
+            <img src="assets/img/blue.png" alt="Origen" style="height: 30px; margin-right: 10px;">
             <div>
               <h5 style="margin: 0; font-size: 16px; font-weight: bold; color: #fff;">Origen</h5>
               <small>{{ origenTexto }}</small>
@@ -29,17 +29,24 @@
         
           <!-- Destino -->
           <div class="d-flex align-items-center flex-grow-1" style="min-width: 0;">
-            <img src="assets/img/locations-pin.png" alt="Destino" style="height: 30px; margin-right: 10px;">
+            <img src="assets/img/red.png" alt="Destino" style="height: 30px; margin-right: 10px;">
             <div>
-              <h5 style="margin: 0; font-size: 16px; font-weight: bold; color: #fff;">Destino</h5>
-              <small>{{ destinoTexto }}</small>
+              <h2 style="margin: 0; font-size: 26px; font-weight: bold; color: #fff;">Destino</h2>
+              <h5 style="margin: 0; font-size: 26px; font-weight: bold; color: #fff;">{{ destinoTexto }}</h5>
             </div>
           </div>
           <div class="locations-pin mt-3 d-flex align-items-center">
             <img src="assets/img/distance.png" alt="Distancia" style="height: 50px; margin-right: 10px;">
             <div>
               <h4>Distancia</h4>
-              <h6>{{ distanciaKm | number:'1.1-2' }} km</h6>
+              <h2 style="font-size: 26px; font-weight: bold; color: #fff;">{{ distanciaKm | number:'1.1-2' }} km</h2>
+            </div>
+          </div>
+          <div class="locations-pin mt-3 d-flex align-items-center">
+            <img src="assets/img/distance.png" alt="Distancia" style="height: 50px; margin-right: 10px;">
+            <div>
+              <h4>Tarifa</h4>
+              <h2 style="font-size: 26px; font-weight: bold; color: #fff;">{{ tarifaTotal | number:'1.1-2' }} $</h2>
             </div>
           </div>
           

@@ -4,11 +4,14 @@ import {
   ViewChild,
   AfterViewInit,
   OnDestroy,
+  OnInit,
   ChangeDetectorRef
 } from '@angular/core';
 import { MapboxService } from '../../services/mapbox.service';
 import { TravelDataService } from '../../services/travel-data.service';
 import { Subscription, combineLatest } from 'rxjs';
+import { CotizadorService } from '../../services/cotizador.service';
+
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -19,6 +22,8 @@ import { CommonModule } from '@angular/common';
 })
 export class ThreeComponent implements AfterViewInit, OnDestroy {
   @ViewChild('mapRef') mapRef!: ElementRef;
+  tarifaTotal: number = 0;
+
   private readonly token =
     'pk.eyJ1IjoiY29uZWN0YXZldC1jb20iLCJhIjoiY20ybDZpc2dmMDhpMDJpb21iZGI1Y2ZoaCJ9.WquhO_FA_2FM0vhYBaZ_jg';
   private subs = new Subscription();
@@ -30,6 +35,7 @@ export class ThreeComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     private mapboxService: MapboxService,
+    private cotizadorService: CotizadorService,
     private travelData: TravelDataService,
     public cdr: ChangeDetectorRef // ✅ se usa para corregir el error NG0100
   ) {}
@@ -84,7 +90,15 @@ export class ThreeComponent implements AfterViewInit, OnDestroy {
   
     this.subs.add(travelSub);
   }
-
+  ngOnInit() {
+    this.cotizadorService.tarifaTotal$.subscribe(valor => {
+      this.tarifaTotal = valor;
+    });
+    this.cotizadorService.distanciaKm$.subscribe(km => {
+      this.distanciaKm = km;
+    });
+  }
+  
   async geocodeAddress(address: string): Promise<[number, number]> {
     const response = await fetch(
       `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(

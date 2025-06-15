@@ -1,20 +1,54 @@
-<section id="home" class="hero-section" style="background-image: url(assets/img/hero-img.jpg);">
+<section id="home" class="hero-section" style="background-image: url(assets/img/hero-img.jpg); min-height: 1100px !important;">
   <div class="container">
-    <div class="hero-section-text">
-      <div class="row align-items-center" >
-        <div class="col-lg-6 wow fadeInUp" data-wow-delay=".5s" data-cursor-text='text' >
+    <div class="hero-section-text" style="padding-top: 100px !important;">
+      <div class="row align-items-start" >
+        <div class="col-lg-5 wow fadeInUp" data-wow-delay=".5s" data-cursor-text='text' >
           <div class="hero-text">
             <h1>Cotiza ahora  <span>el costo de tu traslado</span></h1>
-            <h5>Has llegado al lugar correcto.</h5>
+            <div class="form-group">
+              <label>Tipo de servicio</label>
+              <div class="tabtwo nav nav-pills" role="tablist" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <button type="button"
+                        class="nav-link tooltip-vehiculo tipo-servicio"
+                        [class.active]="tipoServicio === 'aeropuerto'"
+                        (click)="seleccionarTipoServicio('aeropuerto')"
+                        >
+                  <img src="assets/img/airport.png" alt="Aeropuerto" style="width: 100%;">
+                  Aeropuerto
+                  <span class="tooltip-text">Desde el aeropuerto a un destino</span>
+                </button>
+            
+                <button type="button"
+                        class="nav-link tooltip-vehiculo tipo-servicio"
+                        [class.active]="tipoServicio === 'punto'"
+                        (click)="tipoServicio = 'punto'"
+                        >
+                  <img src="assets/img/locationCalc.png" alt="Punto a punto" style="width: 100%;">
+                  Punto a Punto
+                  <span class="tooltip-text">De un punto de origen a uno de destino</span>
+                </button>
+            
+                <button type="button"
+                        class="nav-link tooltip-vehiculo tipo-servicio"
+                        [class.active]="tipoServicio === 'hora'"
+                        (click)="tipoServicio = 'hora'"
+                        >
+                  <img src="assets/img/timer.png" alt="Por hora" style="width: 100%;">
+                  Por Hora
+                  <span class="tooltip-text">Servicio contratado por horas</span>
+                </button>
+              </div>
+            </div>
+            <!-- <h5>Has llegado al lugar correcto.</h5>
             <ul class="theme-list">
               <li><i class="fa-solid fa-check"></i>Cancelaciones libres en la mayoría de las reservas</li>
               <li><i class="fa-solid fa-check"></i>60,000+ ubicaciones</li>
               <li><i class="fa-solid fa-check"></i>Soporte al cliente en 30+ idiomas</li>
-            </ul>
+            </ul> -->
           </div>
         </div>
-        <div class="col-lg-6 wow fadeInUp" data-wow-delay=".8s">
-          <div class="tabtwo nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <div class="col-lg-7 wow fadeInUp" data-wow-delay=".8s">
+          <div class="tabtwo nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical" *ngIf="tipoServicio"> 
             <button class="nav-link tooltip-vehiculo"
                     [class.active]="vehiculoDisponible('sedan')"
                     (click)="seleccionarVehiculo('sedan')">
@@ -41,24 +75,27 @@
                     (click)="seleccionarVehiculo('minibus')">
                     <i class="flaticon-van"></i>
               <!-- <img src="assets/img/bus.png" alt="Minibús" style="height: 25px;width: 25px;"> -->
-              Minibús
-              <span class="tooltip-text">12 o 16 personas (1 maleta por persona)</span>
+              bus 12
+              <span class="tooltip-text">12 personas (1 maleta por persona)</span>
             </button>
+            <button class="nav-link tooltip-vehiculo"
+            [class.active]="vehiculoDisponible('minibus16')"
+            (click)="seleccionarVehiculo('minibus16')">
+                  <i class="flaticon-van"></i>
+            <!-- <img src="assets/img/bus.png" alt="Minibús" style="height: 25px;width: 25px;"> -->
+            bus 16
+            <span class="tooltip-text">16 personas (1 maleta por persona)</span>
+          </button>
           </div>
           
           <div class="tab-content tabtwo" id="v-pills-tabContent">
             <div class="tab-pane fade show active" id="v-pills-home2" role="tabpanel" aria-labelledby="v-pills-home2-tab"> 
            
-          <form (ngSubmit)="onSubmit()" class="contact-form">
+              <form *ngIf="tipoServicio" (ngSubmit)="onSubmit()" class="contact-form">
+ 
             <div class="tab-content tabtwo">
-              <div class="form-group">
-                <label>Tipo de servicio</label>
-                <select [(ngModel)]="tipoServicio" name="tipoServicio" class="form-control">
-                  <option value="aeropuerto">Aeropuerto</option>
-                  <option value="punto">Punto a Punto</option>
-                  <option value="hora">Por Hora</option>
-                </select>
-              </div>
+            
+              
 
               <div class="pick-up position-relative">
                 <span>Origen</span>
@@ -102,8 +139,17 @@
                   </div>
                 </div>
                 <div class="col-lg-6">
-
+                  <div class="quantity-wrapper">
+                    <label class="quantity-label">Cantidad de maletas</label>
+                    <div class="quantity-control">
+                      <button type="button" class="qty-btn" (click)="decreaseMaletaCount()">−</button>
+                      <span class="qty-value">{{ maletaCount }}</span>
+                      <button type="button" class="qty-btn" (click)="increaseMaletaCount()">+</button>
+                        
+                    </div>
+                  </div>
                 </div>
+                
               </div>
              
 
@@ -149,6 +195,7 @@
           </form>
           </div>
           </div>
+          
         </div>
       </div>
     </div>
@@ -157,7 +204,7 @@
     <div class="swiper-wrapper">
       <div class="swiper-slide">
         <div class="img-div">
-          <img src="assets/img/hero-img.jpg" alt="img">
+          <img src="assets/img/hero-img.jpg" alt="img" style="min-height: 1100px !important;">
         </div>
       </div>
       <div class="swiper-slide">
