@@ -193,4 +193,14 @@
       font-size: 0.7rem;
     }
   }
+  .vehiculo-toast {
+    z-index: 10010 !important; /* mayor que el header */
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    backdrop-filter: blur(6px);
+    background-color: rgba(50, 50, 50, 0.85);
+  }
   

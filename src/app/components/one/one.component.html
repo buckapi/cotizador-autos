@@ -1,6 +1,6 @@
 <section id="home" class="hero-section" style="background-image: url(assets/img/hero-img.jpg); min-height: 1100px !important;">
   <div class="container">
-    <div class="hero-section-text" style="padding-top: 100px !important;">
+    <div class="hero-section-text" style="padding-top: 150px !important;">
       <div class="row align-items-start" >
         <div class="col-lg-5 wow fadeInUp" data-wow-delay=".5s" data-cursor-text='text' >
           <div class="hero-text">
@@ -39,12 +39,7 @@
                 </button>
               </div>
             </div>
-            <!-- <h5>Has llegado al lugar correcto.</h5>
-            <ul class="theme-list">
-              <li><i class="fa-solid fa-check"></i>Cancelaciones libres en la mayoría de las reservas</li>
-              <li><i class="fa-solid fa-check"></i>60,000+ ubicaciones</li>
-              <li><i class="fa-solid fa-check"></i>Soporte al cliente en 30+ idiomas</li>
-            </ul> -->
+        
           </div>
         </div>
         <div class="col-lg-7 wow fadeInUp" data-wow-delay=".8s">
@@ -75,15 +70,15 @@
                     (click)="seleccionarVehiculo('minibus')">
                     <i class="flaticon-van"></i>
               <!-- <img src="assets/img/bus.png" alt="Minibús" style="height: 25px;width: 25px;"> -->
-              bus 12
+              Van 12
               <span class="tooltip-text">12 personas (1 maleta por persona)</span>
             </button>
             <button class="nav-link tooltip-vehiculo"
-            [class.active]="vehiculoDisponible('minibus16')"
-            (click)="seleccionarVehiculo('minibus16')">
+            [class.active]="vehiculoDisponible('Van 16 asientos')"
+            (click)="seleccionarVehiculo('Van 16 asientos')">
                   <i class="flaticon-van"></i>
             <!-- <img src="assets/img/bus.png" alt="Minibús" style="height: 25px;width: 25px;"> -->
-            bus 16
+            Van 16
             <span class="tooltip-text">16 personas (1 maleta por persona)</span>
           </button>
           </div>
@@ -220,3 +215,4 @@
     </div>
   </div>
 </section>
+

@@ -1,156 +1,69 @@
-<section id="vehiclemodels" class="gap" style="background-color: #f5f5f5; ">
-    <div class="container">
-      <div class="heading">
-        <span>Seleccione el vehiculo que mas se adapte a sus necesidades </span>
-        <h2>Vehículos disponibles para su <span>traslado</span></h2>
-      </div> 
-      <div class="d-flex align-items-start justify-content-center">
-        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-          <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Minibus<img src="assets/img/convertible.png" alt="img"></button>
-          <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Sedán<img src="assets/img/audi.png" alt="img"></button>
-          <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">SUV<img src="assets/img/merced.png" alt="img"></button>
-          <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Limousine<img src="assets/img/limousine.png" alt="img"></button>
-          <button class="nav-link" id="v-pills-car-tab" data-bs-toggle="pill" data-bs-target="#v-pills-car" type="button" role="tab" aria-controls="v-pills-car" aria-selected="false">Rústico <img src="assets/img/toyota-camry.png" alt="img"></button>
+<section id="vehiclemodels" class="gap" style="background-color: #f5f5f5;">
+  <div class="container">
+    <div class="heading">
+      <span>Seleccione el vehiculo que más se adapte a sus necesidades</span>
+      <h2>Vehículos disponibles para su <span>traslado</span></h2>
+    </div>
+
+    <div class="d-flex align-items-start justify-content-center">
+      <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <div class="vehiculo-subtipos d-flex gap-2 mt-3">
+          <button class="btn"
+                  *ngFor="let subtipo of subtiposDisponibles"
+                  [class.active]="vehiculoSubtipoSeleccionado === subtipo"
+                  (click)="seleccionarSubtipo(subtipo)">
+            <span class="text-center" style="color: black;">
+              {{ subtipo | uppercase }}
+              <i *ngIf="vehiculoSubtipoSeleccionado === subtipo" class="fa-solid fa-check ms-2"></i>
+            </span>
+          </button>
         </div>
       </div>
-      <div class="tab-content" id="v-pills-tabContent">
-        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-          <div class="car-hire">
-            <div class="car-data">
-              <h4>Minibus</h4>
-              <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed nonumy.</p>
-              <ul class="theme-list">
-                <li><i class="fa-solid fa-check"></i>Save time with QuickPass </li>
-                <li><i class="fa-solid fa-check"></i>Flexible, long-term car hire </li>
-                <li><i class="fa-solid fa-check"></i>Phone Reservation</li>
+    </div>
+
+    <div class="tab-content mt-4" id="v-pills-tabContent">
+      <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+        <div class="car-hire">
+          <div class="car-data">
+            <h4>{{ vehiculoSubtipoSeleccionado | titlecase }}</h4>
+            <p>autos.</p>
+
+            <h5 *ngIf="tipoServicio === 'punto' || tipoServicio === 'aeropuerto' ">${{ tarifaTotal | number:'1.0-0' }} <span>({{ distanciaKm | number:'1.1-2' }} km)</span></h5>
+            <h5 *ngIf="tipoServicio === 'hora'">
+              ${{ calcularTarifaPorHora(cotizadorService.getDuracionHoras()) | number:'1.0-0' }} <span> ({{ cotizadorService.getDuracionHoras() }}h)</span>
+            </h5>
+            
+            <a href="#" class="btn btn-warning " style="color: black;"><span>Seleccionar ahora</span></a>
+
+            <!-- Detalle de tarifas -->
+        
+
+          </div>
+
+          <div class="car-info">
+            <img [src]="getImagenVehiculo()" alt="img">
+              <div class="mt-3" *ngIf="getTarifaDetalle().hora as h">
+              <p *ngIf="tipoServicio === 'hora' && getTarifaDetalle().hora as h"><strong>Tarifa por hora:</strong></p>
+              <ul *ngIf="tipoServicio === 'hora' && getTarifaDetalle().hora as h" class="" style="list-style: none;">
+                <li style="font-size: 1rem !important;"><i class="fa-solid fa-check text-warning" style="font-size: 2rem !important;"></i> Pasajeros: {{ h.pasajeros }}</li>
+                <li style="font-size: 1rem !important;"><i class="fa-solid fa-check text-warning" style="font-size: 2rem !important;"></i> Base (2h / 40 km): ${{ h.base }}</li>
+                <li style="font-size: 1rem !important;"><i class="fa-solid fa-check text-warning" style="font-size: 2rem !important;"></i> Adicional por hora (20 km): ${{ h.adicional }}</li>
+                <li style="font-size: 1rem !important;"><i class="fa-solid fa-check text-warning" style="font-size: 2rem !important;"></i> Máximo: {{ h.tiempoMax }}</li>
               </ul>
-              <h5>$24.90 <span>/Rent Per Day</span></h5>
-              <a href="index.html#" class="btn"><span>Reserve Now</span></a>
             </div>
-            <div class="car-info">
-              <img src="assets/img/convertible.png" alt="img">
-              <ul>
-                <li>Model <span> Convertible</span></li>
-                <li>Doors <span>4</span></li>
-                <li>Seats <span>5</span></li>
-                <li>Luggage <span>2 Suitcases / 2 Bags</span></li>
-                <li>Transmission <span>Automatic</span></li>
-                <li>Air conditioning <span>Yes</span></li>
-                <li>Minimum age <span>25 years</span></li>
+
+            <div class="mt-3" *ngIf="getTarifaDetalle().distancia as d " >
+              <p *ngIf="tipoServicio === 'punto' || tipoServicio === 'aeropuerto'" ><strong>Tarifa por distancia:</strong></p>
+              <ul *ngIf="tipoServicio === 'punto' || tipoServicio === 'aeropuerto'" class="" style="list-style: none;">
+                <li style="font-size: 1rem !important;"><i class="fa-solid fa-check text-warning" style="font-size: 2rem !important;"></i> Pasajeros: {{ d.pasajeros }}</li>
+                <li style="font-size: 1rem !important;"><i class="fa-solid fa-check text-warning" style="font-size: 2rem !important;"></i> Maletas: {{ d.maletas }}</li>
+                <li style="font-size: 1rem !important;"><i class="fa-solid fa-check text-warning" style="font-size: 2rem !important;"></i> Base (hasta 10 km): ${{ d.base }}</li>
+                <li style="font-size: 1rem !important;"><i class="fa-solid fa-check text-warning" style="font-size: 2rem !important;"></i> Adicional por km extra: ${{ d.adicional }}</li>
               </ul>
             </div>
           </div>
         </div>
-        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-          <div class="car-hire">
-            <div class="car-data">
-              <h4> Sedán</h4>
-              <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed nonumy.</p>
-              <ul class="theme-list">
-                <li><i class="fa-solid fa-check"></i>Save time with QuickPass </li>
-                <li><i class="fa-solid fa-check"></i>Flexible, long-term car hire </li>
-                <li><i class="fa-solid fa-check"></i>Phone Reservation</li>
-              </ul>
-              <h5>$24.90 <span>/Rent Per Day</span></h5>
-              <a href="index.html#" class="btn"><span>Reserve Now</span></a>
-            </div>
-            <div class="car-info">
-              <img src="assets/img/audi.png" alt="img">
-              <ul>
-                <li>Model <span> Audi</span></li>
-                <li>Doors <span>4</span></li>
-                <li>Seats <span>5</span></li>
-                <li>Luggage <span>2 Suitcases / 2 Bags</span></li>
-                <li>Transmission <span>Automatic</span></li>
-                <li>Air conditioning <span>Yes</span></li>
-                <li>Minimum age <span>25 years</span></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
-          <div class="car-hire">
-            <div class="car-data">
-              <h4>SUV</h4>
-              <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed nonumy.</p>
-              <ul class="theme-list">
-                <li><i class="fa-solid fa-check"></i>Save time with QuickPass </li>
-                <li><i class="fa-solid fa-check"></i>Flexible, long-term car hire </li>
-                <li><i class="fa-solid fa-check"></i>Phone Reservation</li>
-              </ul>
-              <h5>$24.90 <span>/Rent Per Day</span></h5>
-              <a href="index.html#" class="btn"><span>Reserve Now</span></a>
-            </div>
-            <div class="car-info">
-              <img src="assets/img/merced.png" alt="img">
-              <ul>
-                <li>Model <span> Mercedes</span></li>
-                <li>Doors <span>4</span></li>
-                <li>Seats <span>5</span></li>
-                <li>Luggage <span>2 Suitcases / 2 Bags</span></li>
-                <li>Transmission <span>Automatic</span></li>
-                <li>Air conditioning <span>Yes</span></li>
-                <li>Minimum age <span>25 years</span></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
-          <div class="car-hire">
-            <div class="car-data">
-              <h4>Limousine</h4>
-              <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed nonumy.</p>
-              <ul class="theme-list">
-                <li><i class="fa-solid fa-check"></i>Save time with QuickPass </li>
-                <li><i class="fa-solid fa-check"></i>Flexible, long-term car hire </li>
-                <li><i class="fa-solid fa-check"></i>Phone Reservation</li>
-              </ul>
-              <h5>$24.90 <span>/Rent Per Day</span></h5>
-              <a href="index.html#" class="btn"><span>Reserve Now</span></a>
-            </div>
-            <div class="car-info">
-              <img src="assets/img/limousine.png" alt="img">
-              <ul>
-                <li>Model <span> Limousine</span></li>
-                <li>Doors <span>4</span></li>
-                <li>Seats <span>5</span></li>
-                <li>Luggage <span>2 Suitcases / 2 Bags</span></li>
-                <li>Transmission <span>Automatic</span></li>
-                <li>Air conditioning <span>Yes</span></li>
-                <li>Minimum age <span>25 years</span></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="v-pills-car" role="tabpanel" aria-labelledby="v-pills-car-tab">
-          <div class="car-hire">
-            <div class="car-data">
-              <h4>Rústico</h4>
-              <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed nonumy.</p>
-              <ul class="theme-list">
-                <li><i class="fa-solid fa-check"></i>Save time with QuickPass </li>
-                <li><i class="fa-solid fa-check"></i>Flexible, long-term car hire </li>
-                <li><i class="fa-solid fa-check"></i>Phone Reservation</li>
-              </ul>
-              <h5>$24.90 <span>/Rent Per Day</span></h5>
-              <a href="index.html#" class="btn"><span>Reserve Now</span></a>
-            </div>
-            <div class="car-info">
-              <img src="assets/img/toyota-camry.png" alt="img">
-              <ul>
-                <li>Model <span> Toyota Camry</span></li>
-                <li>Doors <span>4</span></li>
-                <li>Seats <span>5</span></li>
-                <li>Luggage <span>2 Suitcases / 2 Bags</span></li>
-                <li>Transmission <span>Automatic</span></li>
-                <li>Air conditioning <span>Yes</span></li>
-                <li>Minimum age <span>25 years</span></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div> 
-     
-    </div>  
-  </section> 
-  
+      </div>
+    </div>
+  </div>
+</section>
