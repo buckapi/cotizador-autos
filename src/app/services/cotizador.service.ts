@@ -33,7 +33,4 @@ getDistanciaKm(): number {
   return this.distanciaKm.getValue();
 }
 
-  // setDistanciaKm(km: number) {
-  //   this.distanciaKmSubject.next(km);
-  // }
 }

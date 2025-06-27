@@ -11,6 +11,7 @@
   import {
     Directive, ElementRef, HostListener, Input, Renderer2, OnDestroy
   } from '@angular/core';
+import { TramosService } from '../../services/tramos.service';
 
   @Directive({
     selector: '[tooltip]'
@@ -20,6 +21,7 @@
     private tooltipElement: HTMLElement;
 
     constructor(
+   
       private elementRef: ElementRef,
       private renderer: Renderer2
     ) {
@@ -61,13 +63,7 @@
 
     tipoServicio: 'aeropuerto' | 'punto' | 'hora' | undefined;
     vehiculoSeleccionado: string = 'sedan';
-    vehiculos = [
-      { tipo: 'sedan', nombre: 'Sedán', img: 'assets/img/vehiculos/sedan.png' },
-      { tipo: 'minivan', nombre: 'Miniván', img: 'assets/img/vehiculos/minivan.png' },
-      { tipo: 'suv', nombre: 'SUV', img: 'assets/img/vehiculos/suv.png' },
-      { tipo: 'minibus', nombre: 'Bus 12', img: 'assets/img/vehiculos/bus12.png' },
-      { tipo: 'Van 16 asientos', nombre: 'Bus 16', img: 'assets/img/vehiculos/bus16.png' }
-    ];
+
     
     
     // Comunes
@@ -112,10 +108,13 @@
       private travelData: TravelDataService,
       private mapboxService: MapboxService,
       public virtualRouterService: VirtualRouterService,
-      public cotizadorService: CotizadorService
+      public cotizadorService: CotizadorService,
+      public tramosService: TramosService
     ) {}
 
     ngOnInit() {
+
+      this.tramosService.cargarTramos();
       this.recuperarDatosGuardados();
     }
     increaseMaletaCount() {
@@ -329,39 +328,6 @@
 
     }
     
-    
-    
-    
-    // onSubmit() {
-      
-    //   const data: any = {
-    //     tipoServicio: this.tipoServicio,
-    //     origin: this.origin,
-    //     destination: this.destination,
-    //     passengerCount: this.passengerCount,
-    //     maletaCount: this.maletaCount,
-    //     timestamp: new Date().getTime()
-    //   };
-
-    //   if (this.tipoServicio === 'aeropuerto') {
-    //     data.fechaIda = this.fechaIda;
-    //     data.horaIda = this.horaIda;
-    //     data.fechaVuelta = this.fechaVuelta;
-    //     data.horaVuelta = this.horaVuelta;
-    //     data.numeroVuelo = this.numeroVuelo;
-    //     data.tipoViaje = this.tipoViaje;
-    //   }
-
-    //   if (this.tipoServicio === 'hora') {
-    //     data.horasContratadas = this.horasContratadas;
-    //   }
-
-    //   // Guarda en servicio y localStorage
-    //   this.travelData.setTravelData(data.origin, data.destination);
-    //   localStorage.setItem('datosCotizador', JSON.stringify(data));
-
-    //   this.iniciarTemporizador();
-    // }
     seleccionarTipoServicio(tipo: 'aeropuerto' | 'punto' | 'hora') {
       this.tipoServicio = tipo;
     
@@ -496,16 +462,6 @@
       this.horasContratadas = 2;
     }
     // Tarifas por hora
-  // tarifasHora = [
-  //   { tipo: 'sedan', base: 1500, adicional: 750 },
-  //   { tipo: 'minivan', base: 2898, adicional: 1449 },
-  //   { tipo: 'suv', base: 6356, adicional: 3178 },
-  //   { tipo: 'minibus', base: 7950, adicional: 3975 },
-  //   { tipo: 'Van 16 asientos', base: 8960, adicional: 4480 }
-  // ];
-
-
-
   tarifasHora = [
     { tipo: 'sedan', subtipo: 'estandar', base: 1500, adicional: 750 },
     { tipo: 'sedan', subtipo: 'espacioso', base: 2056, adicional: 1028 },
@@ -513,45 +469,46 @@
     { tipo: 'minivan', subtipo: 'estandar', base: 2898, adicional: 1449 },
     { tipo: 'minivan', subtipo: 'premium', base: 5761, adicional: 2880 },
     { tipo: 'suv', subtipo: 'premium', base: 6356, adicional: 3178 },
-    { tipo: 'minibus', subtipo: 'Van 12 asientos', base: 7950, adicional: 3975 },
+    { tipo: 'Van 12 asientos', subtipo: 'Van 12 asientos', base: 7950, adicional: 3975 },
     { tipo: 'Van 16 asientos', subtipo: 'Van 16 asientos', base: 8960, adicional: 4480 }
   ];
-  // Tarifas por distancia
-  // tarifasDistancia = [
-  //   { tipo: 'sedan', base: 650, adicionalKm: 22 },
-  //   { tipo: 'minivan', base: 1100, adicionalKm: 34 },
-  //   { tipo: 'suv', base: 2100, adicionalKm: 49 },
-  //   { tipo: 'minibus', base: 3500, adicionalKm: 64 },
-  //   { tipo: 'Van 16 asientos', base: 5100, adicionalKm: 79 }
-  // ];
-  tarifasDistancia = [
-    { tipo: 'sedan', subtipo: 'estandar', base: 650, adicional: 22 },
-    { tipo: 'sedan', subtipo: 'espacioso', base: 890, adicional: 26 },
-    { tipo: 'sedan', subtipo: 'premium', base: 1340, adicional: 32 },
-    { tipo: 'minivan', subtipo: 'estandar', base: 1100, adicional: 34 },
-    { tipo: 'minivan', subtipo: 'premium', base: 1750, adicional: 42 },
-    { tipo: 'suv', subtipo: 'premium', base: 2100, adicional: 49 },
-    { tipo: 'minibus', subtipo: 'Van 12 asientos', base: 3500, adicional: 64 },
-    { tipo: 'Van 16 asientos', subtipo: 'Van 16 asientos', base: 5100, adicional: 79 }
-  ];
-  // tarifasDistancia = [
-  //   { tipo: 'sedan', subtipo: 'estandar', base: 650, adicionalKm: 22 },
-  //   { tipo: 'sedan', subtipo: 'espacioso', base: 890, adicionalKm: 26 },
-  //   { tipo: 'sedan', subtipo: 'premium', base: 1340, adicionalKm: 32 },
-  //   { tipo: 'minivan', subtipo: 'estandar', base: 1100, adicionalKm: 34 },
-  //   { tipo: 'minivan', subtipo: 'premium', base: 1750, adicionalKm: 42 },
-  //   { tipo: 'suv', subtipo: 'premium', base: 2100, adicionalKm: 49 },
-  //   { tipo: 'minibus', subtipo: '12', base: 3500, adicionalKm: 64 },
-  //   { tipo: 'Van 16 asientos', subtipo: '16', base: 5100, adicionalKm: 79 }
-  // ];
+  // Tarifas por distancia 
 
-  // calcularTarifaHora(): number {
-  //   const tarifa = this.tarifasHora.find(t => t.tipo === this.vehiculoSeleccionado);
-  //   if (!tarifa) return 0;
-
-  //   const horasExtras = Math.max(0, this.horasContratadas - 2);
-  //   return tarifa.base + (horasExtras * tarifa.adicional);
-  // }
+  tarifasDistancia: any[] = [];
+  /*
+  //   // { tipo: 'sedan', subtipo: 'estandar', base: 650, adicional: 22 },
+  //   // { tipo: 'sedan', subtipo: 'espacioso', base: 890, adicional: 26 },
+  //   // { tipo: 'sedan', subtipo: 'premium', base: 1340, adicional: 32 },
+  //   // { tipo: 'minivan', subtipo: 'estandar', base: 1100, adicional: 34 },
+  //   // { tipo: 'minivan', subtipo: 'premium', base: 1750, adicional: 42 },880 },
+  //   // { tipo: 'suv', subtipo: 'premium', base: 2100, adicional: 49 },
+  //   // { tipo: 'minibus', subtipo: 'Van 12 asientos', base: 3500, adicional: 64 },
+  //   // { tipo: 'Van 16 asientos', subtipo: 'Van 16 asientos', base: 5100, adicional: 79 }4480 }
+  */
+  obtenerClaveVehiculo(tipo: string, subtipo: string): string {
+    const normalizar = (txt: string) => txt.toLowerCase().replace(/\s+/g, '_');
+  
+    if (tipo === 'minibus' && subtipo === 'Van 12 asientos') return 'minibus_12';
+    if (tipo === 'Van 16 asientos') return 'minibus_19';
+  
+    return `${normalizar(tipo)}_${normalizar(subtipo)}`;
+  }
+  
+  calcularTarifaDistancia(km: number): number {
+    if (!this.tipoServicio) return 0;
+  
+    const servicio = this.tipoServicio === 'aeropuerto' ? 'aeropuerto_hotel' : 'punto_a_punto';
+  
+    const claveVehiculo = this.obtenerClaveVehiculo(this.vehiculoSeleccionado, this.vehiculoSubtipoSeleccionado);
+  
+    const total = this.tramosService.calcularTarifa(km, servicio, claveVehiculo);
+  
+    this.cotizadorService.setTarifaTotal(total);
+    this.cotizadorService.setDistanciaKm(km);
+    return total;
+  }
+  
+  
   calcularTarifaHora(): number {
     const tarifa = this.tarifasHora.find(t =>
       t.tipo === this.vehiculoSeleccionado &&
@@ -562,33 +519,8 @@
     const horasExtras = Math.max(0, this.horasContratadas - 2);
     return tarifa.base + (horasExtras * tarifa.adicional);
   }
-  calcularTarifaDistancia(km: number): number {
-    const tarifa = this.tarifasDistancia.find(t =>
-      t.tipo === this.vehiculoSeleccionado &&
-      t.subtipo === this.vehiculoSubtipoSeleccionado
-    );
-    if (!tarifa) return 0;
 
-    const kmExtras = Math.max(0, km - 10);
-    const total = tarifa.base + (kmExtras * tarifa.adicional);
 
-    this.cotizadorService.setTarifaTotal(total);
-    this.cotizadorService.setDistanciaKm(km);
-    return total;
-  }
-
-  // calcularTarifaDistancia(km: number): number {
-  //   const tarifa = this.tarifasDistancia.find(t => t.tipo === this.vehiculoSeleccionado);
-  //   if (!tarifa) return 0;
-
-  //   const kmExtras = Math.max(0, km - 10);
-  //   const total = tarifa.base + (kmExtras * tarifa.adicionalKm);
-
-  //   this.cotizadorService.setTarifaTotal(total);
-  //   this.cotizadorService.setDistanciaKm(km);
-  //   return total; // ✅ Esto soluciona el error
-    
-  // }
   private asignarSubtipo(tipo: string): 'estandar' | 'espacioso' | 'premium' | 'Van 12 asientos' | 'Van 16 asientos' {
     switch (tipo) {
       case 'suv':

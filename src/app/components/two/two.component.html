@@ -25,7 +25,8 @@
       <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
         <div class="car-hire">
           <div class="car-data">
-            <h4>{{ vehiculoSubtipoSeleccionado | titlecase }}</h4>
+            <h4>{{ vehiculoSeleccionado | titlecase }}</h4>
+            <h3>{{ vehiculoSubtipoSeleccionado | titlecase }}</h3>
             <p>autos.</p>
 
             <h5 *ngIf="tipoServicio === 'punto' || tipoServicio === 'aeropuerto' ">${{ tarifaTotal | number:'1.0-0' }} <span>({{ distanciaKm | number:'1.1-2' }} km)</span></h5>
@@ -42,26 +43,54 @@
 
           <div class="car-info">
             <img [src]="getImagenVehiculo()" alt="img">
-              <div class="mt-3" *ngIf="getTarifaDetalle().hora as h">
-              <p *ngIf="tipoServicio === 'hora' && getTarifaDetalle().hora as h"><strong>Tarifa por hora:</strong></p>
-              <ul *ngIf="tipoServicio === 'hora' && getTarifaDetalle().hora as h" class="" style="list-style: none;">
-                <li style="font-size: 1rem !important;"><i class="fa-solid fa-check text-warning" style="font-size: 2rem !important;"></i> Pasajeros: {{ h.pasajeros }}</li>
-                <li style="font-size: 1rem !important;"><i class="fa-solid fa-check text-warning" style="font-size: 2rem !important;"></i> Base (2h / 40 km): ${{ h.base }}</li>
-                <li style="font-size: 1rem !important;"><i class="fa-solid fa-check text-warning" style="font-size: 2rem !important;"></i> Adicional por hora (20 km): ${{ h.adicional }}</li>
-                <li style="font-size: 1rem !important;"><i class="fa-solid fa-check text-warning" style="font-size: 2rem !important;"></i> Máximo: {{ h.tiempoMax }}</li>
+          
+            <!-- Tarifa por hora -->
+            <div class="mt-3" *ngIf="tipoServicio === 'hora' && getTarifaDetalle().hora as h">
+              <p><strong>Tarifa por hora:</strong></p>
+              <ul style="list-style: none;">
+                <li style="font-size: 1rem !important;">
+                  <i class="fa-solid fa-check text-warning" style="font-size: 2rem !important;"></i>
+                  Pasajeros: {{ h.pasajeros }}
+                </li>
+                <li style="font-size: 1rem !important;">
+                  <i class="fa-solid fa-check text-warning" style="font-size: 2rem !important;"></i>
+                  Base (2h / 40 km): ${{ h.base | number:'1.0-0' }}
+                </li>
+                <li style="font-size: 1rem !important;">
+                  <i class="fa-solid fa-check text-warning" style="font-size: 2rem !important;"></i>
+                  Adicional por hora (20 km): ${{ h.adicional | number:'1.0-0' }}
+                </li>
+                <li style="font-size: 1rem !important;">
+                  <i class="fa-solid fa-check text-warning" style="font-size: 2rem !important;"></i>
+                  Máximo: {{ h.tiempoMax }}
+                </li>
               </ul>
             </div>
-
-            <div class="mt-3" *ngIf="getTarifaDetalle().distancia as d " >
-              <p *ngIf="tipoServicio === 'punto' || tipoServicio === 'aeropuerto'" ><strong>Tarifa por distancia:</strong></p>
-              <ul *ngIf="tipoServicio === 'punto' || tipoServicio === 'aeropuerto'" class="" style="list-style: none;">
-                <li style="font-size: 1rem !important;"><i class="fa-solid fa-check text-warning" style="font-size: 2rem !important;"></i> Pasajeros: {{ d.pasajeros }}</li>
-                <li style="font-size: 1rem !important;"><i class="fa-solid fa-check text-warning" style="font-size: 2rem !important;"></i> Maletas: {{ d.maletas }}</li>
-                <li style="font-size: 1rem !important;"><i class="fa-solid fa-check text-warning" style="font-size: 2rem !important;"></i> Base (hasta 10 km): ${{ d.base }}</li>
-                <li style="font-size: 1rem !important;"><i class="fa-solid fa-check text-warning" style="font-size: 2rem !important;"></i> Adicional por km extra: ${{ d.adicional }}</li>
+          
+            <!-- Tarifa por distancia -->
+            <div class="mt-3" *ngIf="(tipoServicio === 'punto' || tipoServicio === 'aeropuerto') && getTarifaDetalle().distancia as d">
+              <p><strong>Tarifa por distancia:</strong></p>
+              <ul style="list-style: none;">
+                <li style="font-size: 1rem !important;">
+                  <i class="fa-solid fa-check text-warning" style="font-size: 2rem !important;"></i>
+                  Pasajeros: {{ d.pasajeros }}
+                </li>
+                <li style="font-size: 1rem !important;">
+                  <i class="fa-solid fa-check text-warning" style="font-size: 2rem !important;"></i>
+                  Maletas: {{ d.maletas }}
+                </li>
+                <li *ngIf="d.base" style="font-size: 1rem !important;">
+                  <i class="fa-solid fa-check text-warning" style="font-size: 2rem !important;"></i>
+                  Base (hasta 10 km): ${{ d.base | number:'1.0-0' }}
+                </li>
+                <li *ngIf="d.adicional" style="font-size: 1rem !important;">
+                  <i class="fa-solid fa-check text-warning" style="font-size: 2rem !important;"></i>
+                  Adicional por km extra: ${{ d.adicional | number:'1.0-0' }}
+                </li>
               </ul>
             </div>
           </div>
+          
         </div>
       </div>
     </div>
