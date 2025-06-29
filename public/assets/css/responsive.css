@@ -310,9 +310,7 @@
    h2 {
     font-size: 40px;
   }
-  .nav-pills .nav-link img {
-    /* display: none; */
-  }
+
   .nav-pills .nav-link {
     width: 120px;
     padding-left: 0;

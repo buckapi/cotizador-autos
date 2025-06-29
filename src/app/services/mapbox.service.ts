@@ -26,6 +26,61 @@ export class MapboxService {
       .then(res => res.json())
       .then(data => data.features || []);
   }
+
+  /**
+   * Geocode an address to get its coordinates
+   * @param address The address to geocode
+   * @returns Promise with the geocoding response
+   */
+  async geocodeAddress(address: string): Promise<any> {
+    const token = 'pk.eyJ1IjoiY29uZWN0YXZldC1jb20iLCJhIjoiY20ybDZpc2dmMDhpMDJpb21iZGI1Y2ZoaCJ9.WquhO_FA_2FM0vhYBaZ_jg';
+    const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json?limit=1&access_token=${token}`;
+    
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Geocoding failed with status ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error in geocodeAddress:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Calculate distance between two coordinates using Mapbox Directions API
+   * @param origin Origin coordinates [longitude, latitude]
+   * @param destination Destination coordinates [longitude, latitude]
+   * @returns Distance in kilometers
+   */
+  async getDistanceFromMapbox(origin: [number, number], destination: [number, number]): Promise<number> {
+    const token = 'pk.eyJ1IjoiY29uZWN0YXZldC1jb20iLCJhIjoiY20ybDZpc2dmMDhpMDJpb21iZGI1Y2ZoaCJ9.WquhO_FA_2FM0vhYBaZ_jg';
+    const [originLng, originLat] = origin;
+    const [destLng, destLat] = destination;
+    
+    const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${originLng},${originLat};${destLng},${destLat}?access_token=${token}&geometries=geojson`;
+    
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Failed to get distance: ${response.statusText}`);
+      }
+      
+      const data = await response.json();
+      
+      if (data.routes && data.routes[0]) {
+        // Convert meters to kilometers and round to 2 decimal places
+        const distanceInKm = Math.round((data.routes[0].distance / 1000) * 100) / 100;
+        return distanceInKm;
+      }
+      
+      throw new Error('No route found');
+    } catch (error) {
+      console.error('Error calculating distance:', error);
+      throw new Error('Error al calcular la distancia. Por favor intenta de nuevo.');
+    }
+  }
   async setMarkersAndDrawRoute(
     origin: [number, number],
     destination: [number, number],
